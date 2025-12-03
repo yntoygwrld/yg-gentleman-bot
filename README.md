@@ -81,9 +81,24 @@ python bot.py
 | Command | Description |
 |---------|-------------|
 | `/setrate [0-100]` | Set trigger rate percentage |
+| `/setcooldown [user\|phrase\|both] [seconds]` | Set cooldown times |
+| `/resetcooldown` | Reset all cooldowns immediately |
+| `/defaults` | Reset all settings to defaults |
 | `/pause` | Temporarily disable bot |
 | `/resume` | Re-enable bot |
 | `/stats` | View group statistics |
+
+### Testing Mode
+To test the bot with every message (no cooldowns):
+```
+/setrate 100
+/setcooldown both 0
+```
+
+To restore normal operation:
+```
+/defaults
+```
 
 ## Configuration Options
 
