@@ -3,6 +3,7 @@ Response Style Templates
 ========================
 Rotating response styles for the YG Gentleman Bot.
 Each style has a unique personality while maintaining the refined tone.
+All responses incorporate "YN peasant" to emphasize the transformation.
 """
 
 import random
@@ -16,10 +17,10 @@ RESPONSE_STYLES = [
     {
         "name": "The Butler",
         "templates": [
-            'Ahem, if one may... a gentleman would say: "{correction}"',
-            'Pardon the interruption, but might one suggest: "{correction}"',
-            'If one may be so bold... the refined expression is: "{correction}"',
-            'A gentle word, dear sir... perhaps: "{correction}"',
+            'Ahem, such YN peasant speak... a gentleman would say: "{correction}"',
+            'Pardon me, but that is YN peasant vernacular. Might one suggest: "{correction}"',
+            'A YN peasant utterance detected. The refined expression is: "{correction}"',
+            'Dear sir, leave the YN peasant words behind. Perhaps: "{correction}"',
         ]
     },
 
@@ -27,10 +28,10 @@ RESPONSE_STYLES = [
     {
         "name": "The Professor",
         "templates": [
-            'A note on etiquette, dear sir: "{correction}" is the preferred phrasing.',
-            'For one\'s edification: the gentlemanly expression is "{correction}"',
-            'A linguistic refinement, if one may: "{correction}"',
-            'The distinguished vernacular would be: "{correction}"',
+            'A note on etiquette: that is YN peasant dialect. "{correction}" is the preferred phrasing.',
+            'For one\'s edification: YN peasant speak has no place here. Try "{correction}"',
+            'The YN peasant tongue betrays you. The gentlemanly expression is "{correction}"',
+            'Such YN peasant vocabulary! The distinguished vernacular would be: "{correction}"',
         ]
     },
 
@@ -38,10 +39,10 @@ RESPONSE_STYLES = [
     {
         "name": "The Mentor",
         "templates": [
-            'Almost there, good sir. Perhaps try: "{correction}"',
-            'One shows promise. The refined alternative: "{correction}"',
-            'A gentleman in training! Consider: "{correction}"',
-            'Splendid effort. Might one suggest: "{correction}"',
+            'Still speaking like a YN peasant? Rise up, good sir. Try: "{correction}"',
+            'One shows YN peasant tendencies. The refined alternative: "{correction}"',
+            'Shed the YN peasant ways! A gentleman in training says: "{correction}"',
+            'That YN peasant phrase must go. Might one suggest: "{correction}"',
         ]
     },
 
@@ -49,10 +50,10 @@ RESPONSE_STYLES = [
     {
         "name": "The Aristocrat",
         "templates": [
-            'Good heavens! Might one suggest: "{correction}"',
-            'I say! A gentleman would phrase it thus: "{correction}"',
-            'Gracious me! The proper expression: "{correction}"',
-            'Heavens above! One means to say: "{correction}"',
+            'Good heavens, such YN peasant gibberish! Might one suggest: "{correction}"',
+            'I say! That YN peasant drivel! A gentleman would phrase it thus: "{correction}"',
+            'Gracious me, pure YN peasant babble! The proper expression: "{correction}"',
+            'Heavens above, YN peasant nonsense! One means to say: "{correction}"',
         ]
     },
 
@@ -60,10 +61,10 @@ RESPONSE_STYLES = [
     {
         "name": "The Connoisseur",
         "templates": [
-            'A distinguished gentleman would phrase it thus: "{correction}"',
-            'The mark of refinement: "{correction}"',
-            'For the discerning gentleman: "{correction}"',
-            'The cultivated expression: "{correction}"',
+            'That reeks of YN peasant origins. A distinguished gentleman says: "{correction}"',
+            'YN peasant speech detected. The mark of refinement: "{correction}"',
+            'How very YN peasant of you. For the discerning gentleman: "{correction}"',
+            'Such YN peasant crudeness! The cultivated expression: "{correction}"',
         ]
     },
 
@@ -71,10 +72,10 @@ RESPONSE_STYLES = [
     {
         "name": "The Elder",
         "templates": [
-            'In refined circles, one says: "{correction}"',
-            'The wisdom of gentlemen dictates: "{correction}"',
-            'As the distinguished elders would say: "{correction}"',
-            'Time-honoured refinement suggests: "{correction}"',
+            'In my day, we left YN peasant speak behind. One says: "{correction}"',
+            'The wisdom of gentlemen rejects YN peasant tongue: "{correction}"',
+            'Cast off the YN peasant chains! As the distinguished elders say: "{correction}"',
+            'YN peasant words have no power here. Time-honoured refinement suggests: "{correction}"',
         ]
     },
 
@@ -82,10 +83,10 @@ RESPONSE_STYLES = [
     {
         "name": "The Diplomat",
         "templates": [
-            'Might one offer a suggestion? "{correction}"',
-            'With the utmost respect: "{correction}"',
-            'One ventures to propose: "{correction}"',
-            'If one might be so gracious: "{correction}"',
+            'With respect, that is YN peasant parlance. Might one offer: "{correction}"',
+            'A YN peasant slip, perhaps? With the utmost respect: "{correction}"',
+            'One detects YN peasant influence. One ventures to propose: "{correction}"',
+            'Forgive the correction, but YN peasants speak thus. Try: "{correction}"',
         ]
     },
 
@@ -93,22 +94,24 @@ RESPONSE_STYLES = [
     {
         "name": "The Steward",
         "templates": [
-            'The proper expression, dear fellow: "{correction}"',
-            'Allow me to assist: "{correction}"',
-            'For your consideration: "{correction}"',
-            'A refinement, if you please: "{correction}"',
+            'That YN peasant phrase won\'t do, dear fellow. The proper expression: "{correction}"',
+            'Allow me to elevate you from YN peasant speak: "{correction}"',
+            'YN peasant vocabulary detected. For your consideration: "{correction}"',
+            'We don\'t speak like YN peasants here. A refinement: "{correction}"',
         ]
     },
 ]
 
 # Special occasion responses (used rarely for variety)
 SPECIAL_RESPONSES = [
-    'Ah, the transformation continues! "{correction}"',
-    'From YN to YG, one step at a time: "{correction}"',
-    'The gentleman emerges: "{correction}"',
-    'Quarter-zip energy dictates: "{correction}"',
-    'Matcha-sipping wisdom: "{correction}"',
-    'Black excellence refined: "{correction}"',
+    'Ah, the YN peasant to YG transformation continues! "{correction}"',
+    'From YN peasant to Young Gentleman, one step at a time: "{correction}"',
+    'The YN peasant fades, the gentleman emerges: "{correction}"',
+    'Quarter-zip energy rejects YN peasant speak: "{correction}"',
+    'Matcha-sipping gentlemen don\'t talk like YN peasants: "{correction}"',
+    'Black excellence refined. Leave the YN peasant behind: "{correction}"',
+    'YN peasant? In THIS group? Absolutely not: "{correction}"',
+    'The audacity of YN peasant speak! One says: "{correction}"',
 ]
 
 
