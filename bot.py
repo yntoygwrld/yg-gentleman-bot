@@ -291,6 +291,22 @@ async def cmd_resume(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Gentleman training has resumed. The refinement continues!")
 
 
+async def cmd_resetcooldown(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle /resetcooldown command - reset all cooldowns for testing."""
+    if update.message.chat.type == "private":
+        await update.message.reply_text("This command only works in groups.")
+        return
+
+    chat_admins = await update.message.chat.get_administrators()
+    if not is_admin(update.message.from_user.id, chat_admins):
+        await update.message.reply_text("Only administrators may reset cooldowns.")
+        return
+
+    db = get_db()
+    db.reset_all_cooldowns(update.message.chat.id)
+    await update.message.reply_text("All cooldowns have been reset. Test away, distinguished sir!")
+
+
 async def cmd_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle /stats command - show group statistics."""
     if update.message.chat.type == "private":
@@ -352,6 +368,7 @@ def main():
     app.add_handler(CommandHandler("pause", cmd_pause))
     app.add_handler(CommandHandler("resume", cmd_resume))
     app.add_handler(CommandHandler("stats", cmd_stats))
+    app.add_handler(CommandHandler("resetcooldown", cmd_resetcooldown))
 
     # Message handler (must be last)
     app.add_handler(MessageHandler(

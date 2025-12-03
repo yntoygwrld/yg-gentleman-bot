@@ -204,6 +204,29 @@ class GentlemanDB:
             """, (chat_id, phrase.lower(), time.time()))
             conn.commit()
 
+    def reset_user_cooldown(self, user_id: int):
+        """Reset a user's cooldown timer."""
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                "UPDATE users SET last_correction_time = 0 WHERE user_id = ?",
+                (user_id,)
+            )
+            conn.commit()
+
+    def reset_all_cooldowns(self, chat_id: int):
+        """Reset all cooldowns for a chat (phrase cooldowns) and all users."""
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            # Reset phrase cooldowns for this chat
+            cursor.execute(
+                "DELETE FROM phrase_cooldowns WHERE chat_id = ?",
+                (chat_id,)
+            )
+            # Reset all user cooldowns
+            cursor.execute("UPDATE users SET last_correction_time = 0")
+            conn.commit()
+
     # ===== GROUP SETTINGS METHODS =====
 
     def get_group_settings(self, chat_id: int) -> dict:
