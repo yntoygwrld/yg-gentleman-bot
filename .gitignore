@@ -1,6 +1,9 @@
 # Environment variables (contains secrets!)
 .env
 
+# Claude MCP config (contains secrets!)
+.claude/mcp.json
+
 # Database
 data/
 *.db
