@@ -356,6 +356,38 @@ async def cmd_setcooldown(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Usage: /setcooldown [user|phrase|both] [seconds]")
 
 
+async def cmd_defaults(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle /defaults command - reset all settings to defaults."""
+    if update.message.chat.type == "private":
+        await update.message.reply_text("This command only works in groups.")
+        return
+
+    chat_admins = await update.message.chat.get_administrators()
+    if not is_admin(update.message.from_user.id, chat_admins):
+        await update.message.reply_text("Only administrators may reset settings.")
+        return
+
+    db = get_db()
+    # Reset to default values
+    db.update_group_settings(
+        update.message.chat.id,
+        trigger_rate=Config.DEFAULT_TRIGGER_RATE,
+        user_cooldown=Config.USER_COOLDOWN,
+        phrase_cooldown=Config.PHRASE_COOLDOWN,
+        enabled=True
+    )
+    db.reset_all_cooldowns(update.message.chat.id)
+
+    await update.message.reply_text(
+        f"Settings restored to defaults:\n"
+        f"• Trigger rate: {Config.DEFAULT_TRIGGER_RATE * 100:.0f}%\n"
+        f"• User cooldown: {Config.USER_COOLDOWN}s ({Config.USER_COOLDOWN//60}min)\n"
+        f"• Phrase cooldown: {Config.PHRASE_COOLDOWN}s ({Config.PHRASE_COOLDOWN//60}min)\n"
+        f"• Bot: Enabled\n"
+        f"• All cooldowns: Reset"
+    )
+
+
 async def cmd_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle /stats command - show group statistics."""
     if update.message.chat.type == "private":
@@ -419,6 +451,7 @@ def main():
     app.add_handler(CommandHandler("stats", cmd_stats))
     app.add_handler(CommandHandler("resetcooldown", cmd_resetcooldown))
     app.add_handler(CommandHandler("setcooldown", cmd_setcooldown))
+    app.add_handler(CommandHandler("defaults", cmd_defaults))
 
     # Message handler (must be last)
     app.add_handler(MessageHandler(
