@@ -307,6 +307,55 @@ async def cmd_resetcooldown(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("All cooldowns have been reset. Test away, distinguished sir!")
 
 
+async def cmd_setcooldown(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle /setcooldown command - set cooldown times."""
+    if update.message.chat.type == "private":
+        await update.message.reply_text("This command only works in groups.")
+        return
+
+    chat_admins = await update.message.chat.get_administrators()
+    if not is_admin(update.message.from_user.id, chat_admins):
+        await update.message.reply_text("Only administrators may adjust cooldowns.")
+        return
+
+    db = get_db()
+    settings = db.get_group_settings(update.message.chat.id)
+
+    # Show current settings if no args
+    if not context.args:
+        user_cd = settings.get("user_cooldown", Config.USER_COOLDOWN)
+        phrase_cd = settings.get("phrase_cooldown", Config.PHRASE_COOLDOWN)
+        await update.message.reply_text(
+            f"Current cooldowns:\n"
+            f"• User: {user_cd}s ({user_cd//60}min)\n"
+            f"• Phrase: {phrase_cd}s ({phrase_cd//60}min)\n\n"
+            f"Usage:\n"
+            f"/setcooldown user 0 - Disable user cooldown\n"
+            f"/setcooldown phrase 0 - Disable phrase cooldown\n"
+            f"/setcooldown both 0 - Disable all cooldowns"
+        )
+        return
+
+    try:
+        cooldown_type = context.args[0].lower()
+        value = int(context.args[1]) if len(context.args) > 1 else 0
+
+        if cooldown_type == "user":
+            db.update_group_settings(update.message.chat.id, user_cooldown=value)
+            await update.message.reply_text(f"User cooldown set to {value}s ({value//60}min)")
+        elif cooldown_type == "phrase":
+            db.update_group_settings(update.message.chat.id, phrase_cooldown=value)
+            await update.message.reply_text(f"Phrase cooldown set to {value}s ({value//60}min)")
+        elif cooldown_type == "both":
+            db.update_group_settings(update.message.chat.id, user_cooldown=value, phrase_cooldown=value)
+            await update.message.reply_text(f"All cooldowns set to {value}s ({value//60}min)")
+        else:
+            await update.message.reply_text("Usage: /setcooldown [user|phrase|both] [seconds]")
+
+    except (ValueError, IndexError):
+        await update.message.reply_text("Usage: /setcooldown [user|phrase|both] [seconds]")
+
+
 async def cmd_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle /stats command - show group statistics."""
     if update.message.chat.type == "private":
@@ -369,6 +418,7 @@ def main():
     app.add_handler(CommandHandler("resume", cmd_resume))
     app.add_handler(CommandHandler("stats", cmd_stats))
     app.add_handler(CommandHandler("resetcooldown", cmd_resetcooldown))
+    app.add_handler(CommandHandler("setcooldown", cmd_setcooldown))
 
     # Message handler (must be last)
     app.add_handler(MessageHandler(
