@@ -124,7 +124,9 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # ===== COMMAND HANDLERS =====
 
 async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle /start command."""
+    """Handle /start command - admin only."""
+    if not is_admin(update.message.from_user.id):
+        return  # Silently ignore non-admins
     await update.message.reply_text(
         "Good evening, distinguished sir.\n\n"
         "I am the YG Gentleman Bot, here to guide your transformation "
@@ -135,12 +137,16 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle /help command."""
+    """Handle /help command - admin only."""
+    if not is_admin(update.message.from_user.id):
+        return  # Silently ignore non-admins
     await update.message.reply_text(Messages.HELP_MESSAGE)
 
 
 async def cmd_gentleman(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle /gentleman command - show user's gentleman score."""
+    """Handle /gentleman command - admin only."""
+    if not is_admin(update.message.from_user.id):
+        return  # Silently ignore non-admins
     user = update.message.from_user
     db = get_db()
 
@@ -172,7 +178,9 @@ async def cmd_gentleman(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def cmd_optout(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle /optout command."""
+    """Handle /optout command - admin only."""
+    if not is_admin(update.message.from_user.id):
+        return  # Silently ignore non-admins
     user = update.message.from_user
     db = get_db()
 
@@ -185,7 +193,9 @@ async def cmd_optout(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def cmd_optin(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle /optin command."""
+    """Handle /optin command - admin only."""
+    if not is_admin(update.message.from_user.id):
+        return  # Silently ignore non-admins
     user = update.message.from_user
     db = get_db()
 
@@ -198,7 +208,9 @@ async def cmd_optin(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def cmd_vocabulary(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle /vocabulary command - show phrase dictionary."""
+    """Handle /vocabulary command - admin only."""
+    if not is_admin(update.message.from_user.id):
+        return  # Silently ignore non-admins
     # Split into chunks to avoid message length limits
     vocab_items = list(VOCABULARY.items())
 
