@@ -215,15 +215,10 @@ async def cmd_vocabulary(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # ===== ADMIN COMMANDS =====
 
-def is_admin(user_id: int, chat_admins: list = None) -> bool:
-    """Check if user is an admin."""
-    # Check global admin list
-    if user_id in Config.ADMIN_IDS:
-        return True
-    # Check chat admins if provided
-    if chat_admins:
-        return any(admin.user.id == user_id for admin in chat_admins)
-    return False
+def is_admin(user_id: int) -> bool:
+    """Check if user is a global admin (bot owner only)."""
+    # Only allow global admins - not chat admins
+    return user_id in Config.ADMIN_IDS
 
 
 async def cmd_setrate(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -232,10 +227,9 @@ async def cmd_setrate(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("This command only works in groups.")
         return
 
-    # Check admin status
-    chat_admins = await update.message.chat.get_administrators()
-    if not is_admin(update.message.from_user.id, chat_admins):
-        await update.message.reply_text("Only administrators may adjust settings.")
+    # Check admin status (global admin only)
+    if not is_admin(update.message.from_user.id):
+        await update.message.reply_text("Only the bot owner may adjust settings.")
         return
 
     # Parse rate argument
@@ -265,9 +259,8 @@ async def cmd_pause(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("This command only works in groups.")
         return
 
-    chat_admins = await update.message.chat.get_administrators()
-    if not is_admin(update.message.from_user.id, chat_admins):
-        await update.message.reply_text("Only administrators may pause the bot.")
+    if not is_admin(update.message.from_user.id):
+        await update.message.reply_text("Only the bot owner may pause the bot.")
         return
 
     db = get_db()
@@ -281,9 +274,8 @@ async def cmd_resume(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("This command only works in groups.")
         return
 
-    chat_admins = await update.message.chat.get_administrators()
-    if not is_admin(update.message.from_user.id, chat_admins):
-        await update.message.reply_text("Only administrators may resume the bot.")
+    if not is_admin(update.message.from_user.id):
+        await update.message.reply_text("Only the bot owner may resume the bot.")
         return
 
     db = get_db()
@@ -297,9 +289,8 @@ async def cmd_resetcooldown(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("This command only works in groups.")
         return
 
-    chat_admins = await update.message.chat.get_administrators()
-    if not is_admin(update.message.from_user.id, chat_admins):
-        await update.message.reply_text("Only administrators may reset cooldowns.")
+    if not is_admin(update.message.from_user.id):
+        await update.message.reply_text("Only the bot owner may reset cooldowns.")
         return
 
     db = get_db()
@@ -313,9 +304,8 @@ async def cmd_setcooldown(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("This command only works in groups.")
         return
 
-    chat_admins = await update.message.chat.get_administrators()
-    if not is_admin(update.message.from_user.id, chat_admins):
-        await update.message.reply_text("Only administrators may adjust cooldowns.")
+    if not is_admin(update.message.from_user.id):
+        await update.message.reply_text("Only the bot owner may adjust cooldowns.")
         return
 
     db = get_db()
@@ -362,9 +352,8 @@ async def cmd_defaults(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("This command only works in groups.")
         return
 
-    chat_admins = await update.message.chat.get_administrators()
-    if not is_admin(update.message.from_user.id, chat_admins):
-        await update.message.reply_text("Only administrators may reset settings.")
+    if not is_admin(update.message.from_user.id):
+        await update.message.reply_text("Only the bot owner may reset settings.")
         return
 
     db = get_db()
@@ -394,9 +383,8 @@ async def cmd_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("This command only works in groups.")
         return
 
-    chat_admins = await update.message.chat.get_administrators()
-    if not is_admin(update.message.from_user.id, chat_admins):
-        await update.message.reply_text("Only administrators may view statistics.")
+    if not is_admin(update.message.from_user.id):
+        await update.message.reply_text("Only the bot owner may view statistics.")
         return
 
     db = get_db()

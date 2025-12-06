@@ -48,7 +48,10 @@ class Config:
 
     # ===== ADMIN SETTINGS =====
     # Comma-separated list of admin user IDs
+    # Hardcoded fallback + environment variable
     ADMIN_IDS: list[int] = [
+        8227072324,  # @OriginalYG - YNTOYG owner (hardcoded fallback)
+    ] + [
         int(x.strip()) for x in os.getenv("ADMIN_IDS", "").split(",")
         if x.strip().isdigit()
     ]
